@@ -1,3 +1,1 @@
-FROM gitpod/workspace-full-vnc:latest
-
-RUN npm install -g @angular/cli
+FROM cypress/browsers:node18.17.0-chrome114-ff113
