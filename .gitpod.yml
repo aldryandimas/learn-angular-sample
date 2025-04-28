@@ -1,5 +1,5 @@
 image:
-  file: .gitpod.Dockerfile # Pastikan file ini ada di root repo
+  file: gitpod.Dockerfile # Pastikan file ini ada di root repo
 
 tasks:
   - name: Angular & Cypress Setup
