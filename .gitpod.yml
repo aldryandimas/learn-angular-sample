@@ -1,5 +1,5 @@
 image:
-  file: gitpod.Dockerfile # Pastikan file ini ada di root repo
+  file: .gitpod.Dockerfile # Pastikan file ini ada di root repo
 
 tasks:
   - name: Angular & Cypress Setup
@@ -20,7 +20,7 @@ tasks:
       echo "Current directory (command): $(pwd)" # Konfirmasi
       echo "Running ng serve in $(pwd)..."
       # Jalankan Angular dev server di background dari 'my-app'
-      ng serve --host 0.0.0.0 --disable-host-check &
+      npx ng serve --host 0.0.0.0 --disable-host-check &
       # Tunggu hingga port 4200 siap
       gp ports await 4200
       echo "Angular development server is running on port 4200."
