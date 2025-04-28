@@ -1,1 +1,1 @@
-FROM cypress/browsers:node18.17.0-chrome114-ff113
+FROM cypress/browsers:node-22.15.0-chrome-135.0.7049.114-1-ff-137.0.2
