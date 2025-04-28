@@ -1,6 +1,6 @@
 # Gunakan image Docker kustom kita (pastikan namanya .gitpod.Dockerfile)
 image:
-  file: .gitpod.Dockerfile
+  file: gitpod.Dockerfile
 
 # Tugas yang dijalankan Gitpod
 tasks:
