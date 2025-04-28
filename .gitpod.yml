@@ -1,31 +1,55 @@
+# Gunakan image Docker kustom kita (pastikan namanya .gitpod.Dockerfile)
 image:
-  file: gitpod.Dockerfile
+  file: .gitpod.Dockerfile
+
+# Tugas yang dijalankan Gitpod
 tasks:
-  - name: initialize
+  - name: Angular & Cypress Setup # Satu task utama lebih mudah dikelola
+    # Perintah 'init' dijalankan HANYA saat prebuild
     init: |
-      cd my-app
+      echo "Starting Prebuild: Installing dependencies..."
+      # Tidak perlu 'cd', project di root
       npm install
-      touch /workspace/install-done
-  - name: serve the app
+      echo "Prebuild finished: Dependencies installed."
+    # Perintah 'command' dijalankan SETIAP kali workspace dimulai
     command: |
-      cd my-app
-      while [ ! -f /workspace/install-done ]; do sleep 1; echo "waiting for npm install"; done
-      ng serve
-  - name: test the app
-    command: |
-      cd my-app
-      while [ ! -f /workspace/install-done ]; do sleep 1; echo "waiting for npm install"; done
-      ng test --browsers ChromeHeadless
-  - name: preview the app
-    command: |
-      gp ports await 4200 && gp preview --external $(gp url 4200)
-  - name: preview the tests
-    command: |
-      gp ports await 9876 && gp preview --external $(gp url 9876)
+      echo "Starting Workspace..."
+      # Tidak perlu 'cd'
+      # Jalankan Angular dev server di background
+      # Tambahkan --host dan --disable-host-check agar bisa diakses
+      ng serve --host 0.0.0.0 --disable-host-check &
+      # Tunggu hingga port 4200 siap sebelum melanjutkan (opsional, tapi bagus)
+      gp ports await 4200
+      echo "Angular development server is running on port 4200."
+      echo "=========================================================="
+      echo "To open the Cypress Test Runner, run this in a NEW terminal:"
+      echo "npx cypress open"
+      echo ""
+      echo "To run Cypress tests headlessly, run in a NEW terminal:"
+      echo "npx cypress run"
+      echo "=========================================================="
+      # Perintah ini bisa ditambahkan jika ingin Gitpod tahu setup selesai
+      # gp sync-done setup
+
+# Port yang ingin diekspos
 ports:
-  - port: 4200
-    onOpen: open-browser
-    name: serve
-  - port: 9876
-    onOpen: open-browser
-    name: test
+  - port: 4200             # Port Angular App
+    onOpen: open-preview   # Buka preview app di browser saat siap
+    name: Angular App      # Nama tab di Gitpod
+    description: Angular Development Server
+  # Port untuk VNC (akses GUI Cypress via browser, jika image support)
+  - port: 6080             # Biasanya noVNC (web VNC)
+    onOpen: ignore         # Jangan buka otomatis, tapi ekspos
+    name: VNC Interface
+  - port: 5900             # Port VNC dasar
+    onOpen: ignore
+    name: VNC Port
+
+# Rekomendasi ekstensi VS Code
+vscode:
+  extensions:
+    - angular.ng-template         # Wajib untuk Angular Dev
+    - cypress.io                  # Wajib untuk Cypress
+    - dbaeumer.vscode-eslint      # Jika kamu pakai ESLint
+    - esbenp.prettier-vscode      # Jika kamu pakai Prettier
+    - ms-azuretools.vscode-docker # Bermanfaat untuk lihat Docker
