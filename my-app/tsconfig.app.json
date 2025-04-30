@@ -4,7 +4,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [],
-    "baseUrl": "./"
+    "baseUrl": "http://localhost:4200"
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]
