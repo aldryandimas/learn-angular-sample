@@ -5,40 +5,42 @@ tasks:
   - name: Angular & Cypress Setup
     init: |
       echo "Starting Prebuild..."
-      # !! PENTING: Pindah ke direktori project Angular kamu yang benar !!
+
       cd /workspace/learn-angular-sample/my-app
-      echo "Current directory (init): $(pwd)" # Konfirmasi
+      echo "Current directory (init): $(pwd)" 
       echo "Listing files in current directory:"
-      ls -la # Pastikan package.json terlihat di sini
+      ls -la 
       echo "Running npm install in $(pwd)..."
-      npm install # Install dependensi dari direktori 'my-app'
+      npm install 
+
       echo "Prebuild finished."
     command: |
       echo "Starting Workspace..."
-      # !! PENTING: Pindah ke direktori project lagi !!
+
       cd /workspace/learn-angular-sample/my-app
-      echo "Current directory (command): $(pwd)" # Konfirmasi
+      echo "Current directory (command): $(pwd)" 
+
       echo "Running ng serve in $(pwd)..."
-      # Jalankan Angular dev server di background dari 'my-app'
+
       npx ng serve --host 0.0.0.0 --disable-host-check &
-      # Tunggu hingga port 4200 siap
+
       gp ports await 4200
       echo "Angular development server is running on port 4200."
       echo "=========================================================="
       echo "To open the Cypress Test Runner, run this in a NEW terminal:"
-      # Pastikan user pindah ke direktori yang benar
+
       echo "cd /workspace/learn-angular-sample/my-app && npx cypress open"
       echo ""
       echo "To run Cypress tests headlessly, run in a NEW terminal:"
-      # Pastikan user pindah ke direktori yang benar
+
       echo "cd /workspace/learn-angular-sample/my-app && npx cypress run"
       echo "=========================================================="
-      # gp sync-done setup # Opsional
+      # gp sync-done setup
 
 ports:
   - port: 4200
     onOpen: open-preview
-    name: Angular App (my-app) # Nama bisa disesuaikan
+    name: Angular App (my-app)
     description: Angular Development Server
   - port: 6080
     onOpen: ignore
